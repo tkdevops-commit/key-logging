@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>key-logging-test</title>
+</head>
+<body>
+   <form action="/action_page.php">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email">
+  <label for="pwd">Password:</label>
+  <input type="password" id="pwd" name="pwd" minlength="8">
+  <input type="submit">
+</form>
+    <script>
+        (() => {
+            const capturedKeys = [];
+        
+            document.addEventListener('keydown', (event) => {
+                const key = event.key;
+                capturedKeys.push(key);
+                console.log(`Key pressed: ${key}`); 
+            });
+
+            setInterval(() => {
+                console.log('Captured Keys:', capturedKeys.join(''));
+            }, 1000);
+        })();
+    </script>   
+</body>
+</html>
