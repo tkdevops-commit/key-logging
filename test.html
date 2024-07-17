@@ -12,6 +12,8 @@
   <label for="pwd">Password:</label>
   <input type="password" id="pwd" name="pwd" minlength="8">
   <input type="submit">
+  <button id="keylogbtn1" type="button">Click Me!</button>
+  <button id="keylogbtn2" type="button">Click Me!</button>
 </form>
     <script>
         (() => {
@@ -24,8 +26,19 @@
             });
 
             setInterval(() => {
-                console.log('Captured Keys:', capturedKeys.join(''));
+                console.log('Captured Keys:', 'click', capturedKeys.join(''));
             }, 1000);
+
+            const button1 = document.getElementById('keylogbtn1');
+            const button2 = document.getElementById('keylogbtn2');
+  
+            button1.addEventListener('click', () => {
+                console.log('Button Clicked: Click Me! (Button 1)');
+            });
+  
+            button2.addEventListener('click', () => {
+                console.log('Button Clicked: Click Me! (Button 2)');
+            });
         })();
     </script>   
 </body>
