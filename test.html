@@ -11,7 +11,7 @@
   <input type="email" id="email" name="email">
   <label for="pwd">Password:</label>
   <input type="password" id="pwd" name="pwd" minlength="8">
-  <input type="submit">
+  <input id="submit" type="button" value="submit">
   <button id="keylogbtn1" type="button">Click Me!</button>
   <button id="keylogbtn2" type="button">Click Me!</button>
 </form>
@@ -31,6 +31,7 @@
 
             const button1 = document.getElementById('keylogbtn1');
             const button2 = document.getElementById('keylogbtn2');
+            const submit = document.getElementById('submit')
   
             button1.addEventListener('click', () => {
                 console.log('Button Clicked: Click Me! (Button 1)');
@@ -39,6 +40,11 @@
             button2.addEventListener('click', () => {
                 console.log('Button Clicked: Click Me! (Button 2)');
             });
+
+            submit.addEventListener('click', () => {
+                console.log('Button Clicked: Submit (Submit Button)');
+            });
+
         })();
     </script>   
 </body>
