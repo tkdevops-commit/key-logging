@@ -3,49 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>key-logging-test</title>
+    <title>Key Logging Test</title>
 </head>
 <body>
 <form action="">
   <label for="email">Email:</label>
-  <input type="email" id="email" name="email">
+  <input type="email" id="email" name="email" required>
+  <br>
   <label for="pwd">Password:</label>
-  <input type="password" id="pwd" name="pwd" minlength="8">
+  <input type="password" id="pwd" name="pwd" minlength="8" required>
+  <br>
   <input id="submit" type="button" value="Submit">
   <button id="keylogbtn1" type="button">Click Me!</button>
   <button id="keylogbtn2" type="button">Click Me!</button>
 </form>
-    <script>
-        (() => {
-            const capturedKeys = [];
+
+<script>
+    (() => {
+        const capturedKeys = [];
         
-            document.addEventListener('keydown', (event) => {
-                const key = event.key;
-                capturedKeys.push(key);
-                console.log(`Key pressed: ${key}`); 
-            });
+        // Capture keypresses
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+            capturedKeys.push(key);
+            console.log(`Key pressed: ${key}`); 
+        });
 
-            setInterval(() => {
-                console.log('Captured Keys:', 'click', capturedKeys.join(''));
-            }, 1000);
+        // Log captured keys every second
+        setInterval(() => {
+            console.log('Captured Keys:', capturedKeys.join(''));
+        }, 1000);
 
-            const button1 = document.getElementById('keylogbtn1');
-            const button2 = document.getElementById('keylogbtn2');
-            const submit = document.getElementById('submit')
-  
-            button1.addEventListener('click', () => {
-                console.log('Button Clicked: Click Me! (Button 1)');
-            });
-  
-            button2.addEventListener('click', () => {
-                console.log('Button Clicked: Click Me! (Button 2)');
-            });
+        // Get elements by ID
+        const button1 = document.getElementById('keylogbtn1');
+        const button2 = document.getElementById('keylogbtn2');
+        const submit = document.getElementById('submit');
 
-            submit.addEventListener('click', () => {
-                console.log('Button Clicked: Submit (Submit Button)');
-            });
+        // Button click listeners
+        button1.addEventListener('click', () => {
+            console.log('Button Clicked: Click Me! (Button 1)');
+        });
 
-        })();
-    </script>   
+        button2.addEventListener('click', () => {
+            console.log('Button Clicked: Click Me! (Button 2)');
+        });
+
+        // Submit button functionality
+        submit.addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('pwd').value;
+
+            // Capture form data
+            console.log(`Form Submitted: Email: ${email}, Password: ${password}`);
+
+            // Reset captured keys after submission
+            capturedKeys.length = 0;
+        });
+
+    })();
+</script>
 </body>
 </html>
