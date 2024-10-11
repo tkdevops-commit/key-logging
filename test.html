@@ -4,29 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key Logging Test</title>
+    <style>
+        #capturedKeysDisplay {
+            margin-top: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
 <form action="">
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" required>
+  <span id="emailError" class="error"></span>
   <br>
   <label for="pwd">Password:</label>
   <input type="password" id="pwd" name="pwd" minlength="8" required>
+  <span id="pwdError" class="error"></span>
   <br>
   <input id="submit" type="button" value="Submit">
   <button id="keylogbtn1" type="button">Click Me!</button>
   <button id="keylogbtn2" type="button">Click Me!</button>
+  <button id="clearKeys" type="button">Clear Keys</button>
 </form>
+
+<div id="capturedKeysDisplay">Captured Keys: </div>
 
 <script>
     (() => {
         const capturedKeys = [];
-        
+
+        const displayCapturedKeys = () => {
+            const display = document.getElementById('capturedKeysDisplay');
+            display.textContent = `Captured Keys: ${capturedKeys.join('')}`;
+        };
+
         // Capture keypresses
         document.addEventListener('keydown', (event) => {
             const key = event.key;
             capturedKeys.push(key);
-            console.log(`Key pressed: ${key}`); 
+            console.log(`Key pressed: ${key}`);
+            displayCapturedKeys(); // Update display
         });
 
         // Log captured keys every second
@@ -38,6 +63,7 @@
         const button1 = document.getElementById('keylogbtn1');
         const button2 = document.getElementById('keylogbtn2');
         const submit = document.getElementById('submit');
+        const clearKeys = document.getElementById('clearKeys');
 
         // Button click listeners
         button1.addEventListener('click', () => {
@@ -48,17 +74,58 @@
             console.log('Button Clicked: Click Me! (Button 2)');
         });
 
-        // Submit button functionality
-        submit.addEventListener('click', () => {
+        // Clear captured keys
+        clearKeys.addEventListener('click', () => {
+            capturedKeys.length = 0;
+            displayCapturedKeys(); // Clear the displayed keys
+            console.log('Captured keys cleared');
+        });
+
+        // Simple email and password validation
+        const validateForm = () => {
+            let valid = true;
             const email = document.getElementById('email').value;
             const password = document.getElementById('pwd').value;
+            const emailError = document.getElementById('emailError');
+            const pwdError = document.getElementById('pwdError');
 
-            // Capture form data
-            console.log(`Form Submitted: Email: ${email}, Password: ${password}`);
+            // Clear error messages
+            emailError.textContent = '';
+            pwdError.textContent = '';
 
-            // Reset captured keys after submission
-            capturedKeys.length = 0;
+            // Email validation
+            if (!email.includes('@')) {
+                emailError.textContent = 'Invalid email address.';
+                valid = false;
+            }
+
+            // Password validation
+            if (password.length < 8) {
+                pwdError.textContent = 'Password must be at least 8 characters long.';
+                valid = false;
+            }
+
+            return valid;
+        };
+
+        // Submit button functionality
+        submit.addEventListener('click', () => {
+            if (validateForm()) {
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('pwd').value;
+
+                // Capture form data
+                console.log(`Form Submitted: Email: ${email}, Password: ${password}`);
+
+                // Reset captured keys after submission
+                capturedKeys.length = 0;
+                displayCapturedKeys();
+            }
         });
+    })();
+</script>
+</body>
+</html>
 
     })();
 </script>
